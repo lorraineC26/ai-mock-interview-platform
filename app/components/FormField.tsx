@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/input';
 import React from 'react'
 import { Form } from 'react-hook-form';
 
-const FormFiled = () => (
+const FormField = () => (
   <FormField 
     control={form.control}
     name="username"
@@ -22,4 +22,3 @@ const FormFiled = () => (
   />
 )
 
-export default FormFiled

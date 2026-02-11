@@ -14,7 +14,7 @@ const formSchema = z.object({
   username: z.string().min(1).max(50),
 });
 
-const AuthForm = () => {
+const AuthForm = ({ type }: { type: FormType }) => {
   // Define a form using react-hook-form and zod for validation.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -28,6 +28,8 @@ const AuthForm = () => {
     // Do something with the form values.
     console.log(data);
   }
+
+  const isSignIn = type === "sign-in";
 
   return (
     <div className="auth-card-border lg:min-w-[566px]">
@@ -44,8 +46,14 @@ const AuthForm = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-full space-y-6 mt-4 form"
           >
-            <p>Name</p>
-            <Button type="submit">Submit</Button>
+            {/* Only show the name field if user is signing up */}
+            {!isSignIn && <p>Name</p>}
+            <p>Email</p>
+            <p>Password</p>
+
+            <Button className="btn" type="submit">
+              {isSignIn ? "Sign In" : "Create an Account"}
+            </Button>
           </form>
         </Form>
       </div>
