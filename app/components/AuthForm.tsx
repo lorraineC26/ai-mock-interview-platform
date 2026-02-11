@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Form } from "@/components/ui/form";
 
 import Image from "next/image";
+import Link from "next/link";
 
 const formSchema = z.object({
   username: z.string().min(1).max(50),
@@ -32,7 +33,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
   const isSignIn = type === "sign-in";
 
   return (
-    <div className="auth-card-border lg:min-w-[566px]">
+    <div className="card-border lg:min-w-[566px]">
       <div className="flex flex-col gap-6 card py-14 px-10">
         <div className="flex flex-row gap-2 justify-center">
           <Image src="/logo.svg" alt="Logo" width={38} height={32} />
@@ -56,6 +57,15 @@ const AuthForm = ({ type }: { type: FormType }) => {
             </Button>
           </form>
         </Form>
+
+        <p className="text-center">
+          {isSignIn
+            ? "Don't have an account? "
+            : "Already have an account? "}
+          <Link href={!isSignIn ? "/sign-in" : "/sign-up"} className="font-bold text-user-primary ml-1">
+            {!isSignIn ? "Sign In" : "Sign Up"}
+          </Link>
+        </p>
       </div>
     </div>
   );
