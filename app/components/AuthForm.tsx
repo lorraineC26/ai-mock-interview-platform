@@ -5,29 +5,40 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Form } from "@/components/ui/form";
 
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "sonner";
 
-const formSchema = z.object({
-  username: z.string().min(1).max(50),
-});
+const authFormSchema = (type: FormType) => {
+  return z.object({
+    name: type === "sign-up" ? z.string().min(3) : z.string().optional(), // Only require name if signing up
+    email: z.email(),
+    password: z.string().min(3),
+  });
+};
 
 const AuthForm = ({ type }: { type: FormType }) => {
-  // Define a form using react-hook-form and zod for validation.
+  const formSchema = authFormSchema(type);
+
+  // 1. Define a form using react-hook-form and zod for validation
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      name: "",
+      email: "",
+      password: "",
     },
   });
 
-  // Define a submit handler.
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    console.log(data);
+  // 2. Define a submit handler
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+    } catch (error) {
+      console.error("Error during form submission:", error);
+      toast.error(`There was an error: ${error}.`);
+    }
   }
 
   const isSignIn = type === "sign-in";
@@ -59,10 +70,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
         </Form>
 
         <p className="text-center">
-          {isSignIn
-            ? "Don't have an account? "
-            : "Already have an account? "}
-          <Link href={!isSignIn ? "/sign-in" : "/sign-up"} className="font-bold text-user-primary ml-1">
+          {isSignIn ? "Don't have an account? " : "Already have an account? "}
+          <Link
+            href={!isSignIn ? "/sign-in" : "/sign-up"}
+            className="font-bold text-user-primary ml-1"
+          >
             {!isSignIn ? "Sign In" : "Sign Up"}
           </Link>
         </p>
