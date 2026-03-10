@@ -27,7 +27,10 @@ export async function signUp(params: SignUpParams) {
       email,
     });
 
-    return { success: true, message: "Account created successfully! Please sign in." };
+    return {
+      success: true,
+      message: "Account created successfully! Please sign in.",
+    };
   } catch (e: any) {
     console.error("Error occurred while signing up:", e);
 
@@ -88,4 +91,44 @@ export async function setSessionCookie(idToken: string) {
     path: "/", // Cookie is valid for the entire site
     sameSite: "lax", // CSRF protection
   });
+}
+
+// Get the currently logged-in user based on the session cookie --> (later) figure out whether user is authenticated
+export async function getCurrentUser(): Promise<User | null> {
+  // Get the cookie from the request headers
+  const cookieStore = await cookies();
+
+  // Get the specific session cookie
+  const sessionCookie = cookieStore.get("session")?.value;
+
+  if (!sessionCookie) return null;
+
+  try {
+    // Verify the session cookie and decode it to get the user's information
+    const decodedClaims = await auth.verifySessionCookie(sessionCookie, true); // checkRevoked = true to ensure the session is still valid and hasn't been revoked
+
+    const userRecord = await db
+      .collection("users")
+      .doc(decodedClaims.uid)
+      .get();
+
+    if (!userRecord.exists) return null;
+
+    return {
+      ...userRecord.data(),
+      id: userRecord.id,
+    } as User;
+  } catch (e) {
+    console.error("Error occurred while verifying session cookie:", e);
+
+    // either the session is invalid or expired, so clear the cookie
+    return null;
+  }
+}
+
+export async function isAuthenticated() {
+  const user = await getCurrentUser();
+
+  // !!cover the return type to boolean (true if user exists)
+  return !!user; 
 }
