@@ -5,7 +5,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Control, Controller, FieldValues, Form, Path } from "react-hook-form";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 
 // accepts a generic type T that extends FieldValues, which is a type from react-hook-form representing the shape of form data.
 // This allows the FormField component to be flexible and work with any form data structure defined by the parent component.
