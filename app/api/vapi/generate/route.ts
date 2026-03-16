@@ -19,6 +19,7 @@ export async function POST(request: Request) {
     // rename text to questions for better readability
     const { text: questions } = await generateText({
       // gemini available models: https://ai.google.dev/gemini-api/docs/models
+      // gemini-2.5-flash-lite will shut down on July 22, 2026 --> replaced by gemini-3.1-flash-lite-preview (https://ai.google.dev/gemini-api/docs/deprecations)
       model: google("gemini-2.5-flash-lite"),
       prompt: `Prepare questions for a job interview.
         The job role is ${role}.
