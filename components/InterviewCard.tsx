@@ -23,7 +23,7 @@ const InterviewCard = ({
   ).format("MMM D, YYYY");
 
   return (
-    <div className="card-border w-[360px] max-sm:w-full min-h-96">
+    <div className="card-border w-90 max-sm:w-full min-h-96">
       <div className="card-interview">
         <div>
           {/* Type Badge */}
@@ -37,7 +37,7 @@ const InterviewCard = ({
             alt="Interview Cover"
             width={90}
             height={90}
-            className="rounded-full object-fit size-[90px]"
+            className="rounded-full object-fit size-22.5"
           />
 
           {/* Interview Role */}

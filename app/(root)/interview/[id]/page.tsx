@@ -38,7 +38,7 @@ const page = async ({ params }: RouteParams) => {
         </p>
       </div>
 
-      {/* Agent Component: conduct with previous generated Qs */}
+      {/* Agent Component: conduct with previous generated Qs from Vapi Workflow */}
       <Agent
         userName={user?.name!}
         userId={user?.id}
