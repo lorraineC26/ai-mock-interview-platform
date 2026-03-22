@@ -60,7 +60,15 @@ export async function createFeedback(params: CreateFeedbackParams) {
 
     // migrate from generateObject to generateText due to deprecation
     // https://ai-sdk.dev/docs/migration-guides/migration-guide-6-0#generateobject-and-streamobject-deprecation
-    const { output } = await generateText({
+    const {
+      output: {
+        totalScore,
+        categoryScores,
+        strengths,
+        areasForImprovement,
+        finalAssessment,
+      },
+    } = await generateText({
       model: google("gemini-2.5-flash-lite"),
       output: Output.object({ schema: feedbackSchema }),
       prompt: `
@@ -78,6 +86,22 @@ export async function createFeedback(params: CreateFeedbackParams) {
       system:
         "You are a professional interviewer analyzing a mock interview. Your task is to evaluate the candidate based on structured categories",
     });
+
+    const feedback = await db.collection("feedback").add({
+      interviewId,
+      userId,
+      totalScore,
+      categoryScores,
+      strengths,
+      areasForImprovement,
+      finalAssessment,
+      createdAt: new Date().toISOString(),
+    })
+
+    return {
+      success: true,
+      feedbackId: feedback.id,
+    }
   } catch (error) {
     console.error("Error saving feedback:", error);
   }
