@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import InterviewCard from "@/components/InterviewCard";
 import { getCurrentUser } from "@/lib/actions/auth.action";
 import {
@@ -11,11 +12,13 @@ import {
 const page = async () => {
   const user = await getCurrentUser();
 
+  if (!user) redirect("/sign-in");
+
   // use Promise.all to fetch both in parallel since they are independent of each other
   // this will improve the performance by reducing the total waiting time
   const [userInterviews, latestInterviews] = await Promise.all([
-    await getInterviewsByUserId(user?.id!),
-    await getLatestInterviews({ userId: user?.id! }),
+    getInterviewsByUserId(user.id),
+    getLatestInterviews({ userId: user.id }),
   ]);
 
   const hasPastInterviews = userInterviews?.length! > 0;
