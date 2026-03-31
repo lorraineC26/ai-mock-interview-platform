@@ -4,8 +4,9 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import DisplayTechIcons from "./DisplayTechIcons";
+import { getFeedbackByInterviewId } from "@/lib/actions/general.action";
 
-const InterviewCard = ({
+const InterviewCard = async ({
   id,
   userId,
   role,
@@ -13,7 +14,9 @@ const InterviewCard = ({
   techstack,
   createdAt,
 }: InterviewCardProps) => {
-  const feedback = null as Feedback | null;
+  const feedback = userId && id 
+  ? await getFeedbackByInterviewId({interviewId: id, userId})
+  : null;
 
   // 正则表达式，g 表示全局匹配，i 表示不区分大小写，检查字符串中是否包含 "mix"
   const normalizedType = /mix/gi.test(type) ? "Mixed" : type;
