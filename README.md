@@ -148,9 +148,9 @@
 
 ## Interactive Architecture Course
 
-Want to understand how AceReady works under the hood? The [`aceready-course/`](./aceready-course/) folder contains a 5-module interactive walkthrough covering authentication, real-time voice, AI feedback generation, and more — built for developers who want to study or extend the codebase.
+Want to understand how AceReady works under the hood? I built a standalone 5-module interactive walkthrough covering authentication, real-time voice, AI feedback generation, and more — for developers who want to study or extend the codebase.
 
-Open `aceready-course/index.html` in your browser to get started.
+**[View the course → lorraineC26/AceReady-Architecture-Course](https://github.com/lorraineC26/AceReady-Architecture-Course)**
 
 ![AceReady Course](public/screenshots/aceready_course.png)
 
